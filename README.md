@@ -35,12 +35,18 @@
 1. Clone this repository to your local machine  
    ` git clone https://github.com/cartodeveloper/mend-ie-challenge.git ANY-NAME`
 
-2. `cd ` into the cloned repository.
+2. `cd ` into the project directory = cloned repository.
 
 3. Make a fresh start of the git history with `rm -rf .git && git init`
 
-4. Instal xml2json-light module ` npm i xml2json-light --save`.
+4. Instal xml2json-light node module ` npm i xml2json-light --save`.
 
-5. Go to `app.js` and run Js outsite the browser with this script `npm run server`.
+5. Run Js outsite the browser with this script `npm run server`.
 
-6. Get the correct infomation print into the terminal.
+6. Get the Object with the converted data print in the terminal.
+
+---
+
+## 👩‍💻 Contact
+
+If you have any questions, please don't hesitate, and [Let's Connect!](https://linktr.ee/mtdev)
