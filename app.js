@@ -1,17 +1,69 @@
-// Require https module to get the object from the fetching data.
+// Require https module to get the object from the API.
 const https = require("https");
 
-// Require xml2js module
-const parser = require("xml2js");
+// Require xml2json-light module
+const parser = require("xml2json-light");
 
-// Make the get request I should need to passed the url and a callback function for the response.
+// Make the get request, using the get() method, I should need to passed the url and a callback function for the response.
 
-// Be sure to return an obj
+let url = "https://www.senate.gov/general/contact_information/senators_cfm.xml";
 
-// Add the data
+https
+  .get(url, (res) => {
+    let xmlData = "";
+    let newObjFormat = { members: [] };
+    let obj;
 
-// Parse XML and create newObj format.
+    //Make sure xml2js returns an object, rather than string
+    let options = {
+      object: true,
+    };
 
-// Loop the Obj to extract the needed data for the new format.
+    res.on("data", (chunk) => {
+      xmlData += chunk;
+    });
 
-// Handle errors.
+    //Parse XML using the xml2json function thanks to the xml2json-light module.
+    res.on("end", () => {
+      obj = parser.xml2json(xmlData, options);
+
+      // Loop the Obj to extract the needed data for the new format.
+      for (member in obj.contact_information.member) {
+        let uniqueMember = obj.contact_information.member[member];
+        let address = uniqueMember.address.split(" ");
+        let postalCode = uniqueMember.address.substr(-5);
+        newObjFormat.members.push({
+          firstName: uniqueMember.first_name,
+          lastName: uniqueMember.last_name,
+          fullName: `${uniqueMember.first_name} ${uniqueMember.last_name}`,
+          chartId: uniqueMember.bioguide_id,
+          mobile: uniqueMember.phone,
+          address: [
+            {
+              street:
+                address[0] +
+                " " +
+                address[1] +
+                " " +
+                address[2] +
+                " " +
+                address[3] +
+                " " +
+                address[4],
+              city: address[5],
+              state: address[6],
+              postal: Number(postalCode),
+            },
+          ],
+        });
+      }
+      //Printing the converted data.
+
+      console.log(JSON.stringify(newObjFormat, null, 1));
+    });
+
+    //Handle errors
+  })
+  .on("error", (err) => {
+    console.log(err.message);
+  });
