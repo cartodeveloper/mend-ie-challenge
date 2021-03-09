@@ -40,16 +40,7 @@ https
           mobile: uniqueMember.phone,
           address: [
             {
-              street:
-                address[0] +
-                " " +
-                address[1] +
-                " " +
-                address[2] +
-                " " +
-                address[3] +
-                " " +
-                address[4],
+              street: `${address[0]} ${address[1]} ${address[3]} ${address[4]}`,
               city: address[5],
               state: address[6],
               postal: Number(postalCode),
