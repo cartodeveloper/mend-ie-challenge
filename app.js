@@ -10,11 +10,14 @@ let url = "https://www.senate.gov/general/contact_information/senators_cfm.xml";
 
 https
   .get(url, (res) => {
+    //console.log("statusCode", res.statusCode); <--- 200.
+    //console.log("header:", res.headers);   <--- Headers content: server/etag/date/connection.
+
     let xmlData = "";
     let newObjFormat = { members: [] };
     let obj;
 
-    //Make sure xml2js returns an object, rather than string
+    //Make sure res returns an object, rather than a string
     let options = {
       object: true,
     };
